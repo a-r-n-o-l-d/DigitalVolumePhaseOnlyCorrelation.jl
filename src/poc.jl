@@ -1,6 +1,6 @@
-function poc(img1, img2)
-    c = fft(img1) .* conj.(fft(img2))
+function poc(sig1, sig2)
+    c = fft(sig1) .* conj.(fft(sig2))
     real.(ifftshift(ifft(c ./ abs.(c))))
 end
 
-poc(img1::Array{T}, img2::Array{T}) where {T<:AbstractGray} = poc(channelview(img1), channelview(img2))
+poc(sig1::Array{T}, sig2::Array{T}) where {T<:AbstractGray} = poc(channelview(sig1), channelview(sig2))

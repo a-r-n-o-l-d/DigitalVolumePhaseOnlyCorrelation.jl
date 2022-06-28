@@ -1,0 +1,3 @@
+[deps]
+DigitalVolumePhaseOnlyCorrelation = "1b9adba1-7585-428e-8f03-a3758e4afb66"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"

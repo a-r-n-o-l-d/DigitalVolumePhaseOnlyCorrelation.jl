@@ -7,12 +7,24 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
     @eval begin
         """
             $(string($sname))(sz; kwargs...)
-        Create an apodization function $(string($sname)) up to 3 dimensions,
+        Create an apodization function `$(string($sname))` up to 3 dimensions,
         with size `sz` defined as a single `Int` (1-dimensionnal) or a tuple of 
         `Int`.
 
-        For `kwargs` definitions see $(string($apod)) function in package
+        For `kwargs` definitions see `$(string($apod))` function in package
         `DSP.jl`.
+
+        # Example
+
+        ```jldoctest
+        julia> apod = $(string($sname))((16, 16, 16));
+
+        julia> A = rand(16, 16, 16);
+        
+        julia> apod(A) # apply apodization function to Array A
+        16×16×16 Array{Float64, 3}:
+        ...
+        ```
         """
         struct $sname{N, T<:Real} <: ApodizationFunction
             weights::Array{T, N}
@@ -23,16 +35,14 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
         $sname(sz::NTuple{2, Int}; kwargs...) = $sname(DSP.$apod(sz; kwargs...))
 
         function $sname(sz::NTuple{3, Int}; kwargs...)
-            w2d = $sname(sz[1:2]; kwargs...).weights #DSP.$apod(sz[1:2]; kwargs...)
-            w3d = $sname(sz[end]; kwargs...).weights #DSP.$apod(sz[end]; kwargs...)
+            w2d = $sname(sz[1:2]; kwargs...).weights
+            w3d = $sname(sz[end]; kwargs...).weights
             w = zeros(size(w2d)..., size(w3d)...)
             for k in 1:sz[end]
                @inbounds @. w[:,:,k] = w2d * w3d[k]
             end
             $sname(w)
         end
-
-        #$sname(sz::NTuple{N, Int}; kwargs...) where {N} = $sname(sz...; kwargs...)
 
         (apod::$sname)(A) = @. apod.weights * A
     end
@@ -43,12 +53,24 @@ for apod in (:tukey, :gaussian, :kaiser)
     @eval begin
         """
             $(string($sname))(sz, par; kwargs...)
-        Create an apodization function $(string($sname)) up to 3 dimensions,
+        Create an apodization function `$(string($sname))` up to 3 dimensions,
         with size `sz` defined as a single `Int` (1-dimensionnal) or a tuple of 
         `Int`.
 
         For `par` and `kwargs` definitions see `$(string($apod))` function in 
         package `DSP.jl`.
+
+        # Example
+
+        ```jldoctest
+        julia> apod = $(string($sname))((16, 16, 16), 0.5); # $(string($sname)) with par = 0.5
+
+        julia> A = rand(16, 16, 16);
+        
+        julia> apod(A) # apply apodization function to Array A
+        16×16×16 Array{Float64, 3}:
+        ...
+        ```
         """
         struct $sname{N, T<:Real} <: ApodizationFunction
             weights::Array{T, N}

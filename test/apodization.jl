@@ -8,7 +8,7 @@ for func in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
         apod = $sname(wsz)
         @test all(apod.weights .== DSP.$func(wsz))
 
-        apod = $sname(wsz, wsz)
+        apod = $sname((wsz, wsz))
         @test all(apod.weights .== DSP.$func((wsz, wsz)))
 
         A = rand(wsz, wsz, wsz)

@@ -1,6 +1,6 @@
 using DigitalVolumePhaseOnlyCorrelation
 using Test
 
-@testset "DigitalVolumePhaseOnlyCorrelation.jl" begin
-    # Write your tests here.
+@testset "DigitalVolumePhaseOnlyCorrelation" begin
+    include("apodization.jl")
 end

@@ -70,27 +70,3 @@ for apod in (:tukey, :gaussian, :kaiser)
         (apod::$sname)(A) = @. apod.weights * A
     end
 end
-
-#=
-struct Hanning{N} <: ApodizationFunction
-    weights::Array{<:Real,N}
-end
-
-Hanning(n::Int; kwargs...) = Hanning(DSP.hanning(n; kwargs...))
-
-Hanning(sz::Vararg{Int,2}; kwargs...) = Hanning(DSP.hanning(sz; kwargs...))
-
-function Hanning(sz::Vararg{Int,3}; kwargs...)
-    w2d = DSP.hanning(sz[1:2]; kwargs...)
-    w3d = DSP.hanning(sz[end]; kwargs...)
-    w = zeros(size(w2d)..., size(w3d)...)
-    for k in 1:sz[end]
-       @inbounds @. w[:,:,k] = w2d * w3d[k]
-    end
-    Hanning(w)
-end
-
-function (apod::Hanning)(A)
-    @. apod.weights * A
-end
-=#

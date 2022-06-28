@@ -11,7 +11,8 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
         with size `sz` defined as a single `Int` (1-dimensionnal) or a tuple of 
         `Int`.
 
-        For `kwargs` see $(string($apod)) function in package `DSP.jl`.
+        For `kwargs` definitions see $(string($apod)) function in package
+        `DSP.jl`.
         """
         struct $sname{N, T<:Real} <: ApodizationFunction
             weights::Array{T, N}
@@ -46,8 +47,8 @@ for apod in (:tukey, :gaussian, :kaiser)
         with size `sz` defined as a single `Int` (1-dimensionnal) or a tuple of 
         `Int`.
 
-        For `par` and `kwargs` see `$(string($apod))` function in package 
-        `DSP.jl`.
+        For `par` and `kwargs` definitions see `$(string($apod))` function in 
+        package `DSP.jl`.
         """
         struct $sname{N, T<:Real} <: ApodizationFunction
             weights::Array{T, N}

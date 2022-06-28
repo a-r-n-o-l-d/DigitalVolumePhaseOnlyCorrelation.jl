@@ -14,8 +14,8 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
 
         For `kwargs` see $(string($apod)) function in `DSP.jl`.
         """
-        struct $sname{N} <: ApodizationFunction
-            weights::Array{<:Real, N}
+        struct $sname{N, T<:Real} <: ApodizationFunction
+            weights::Array{T, N}
         end
 
         $sname(n::Int; kwargs...) = $sname(DSP.$apod(n; kwargs...))
@@ -23,8 +23,8 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
         $sname(sz::Vararg{Int, 2}; kwargs...) = $sname(DSP.$apod(sz; kwargs...))
 
         function $sname(sz::Vararg{Int, 3}; kwargs...)
-            w2d = $sname(sz[1:2]; kwargs...) #DSP.$apod(sz[1:2]; kwargs...)
-            w3d = $sname(sz[end]; kwargs...) #DSP.$apod(sz[end]; kwargs...)
+            w2d = $sname(sz[1:2]; kwargs...).weights #DSP.$apod(sz[1:2]; kwargs...)
+            w3d = $sname(sz[end]; kwargs...).weights #DSP.$apod(sz[end]; kwargs...)
             w = zeros(size(w2d)..., size(w3d)...)
             for k in 1:sz[end]
                @inbounds @. w[:,:,k] = w2d * w3d[k]
@@ -34,9 +34,7 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
 
         $sname(sz::NTuple{N, Int}; kwargs...) where {N} = $sname(sz...; kwargs...)
 
-        function (apod::$sname)(A)
-            @. apod.weights * A
-        end
+        (apod::$sname)(A) = @. apod.weights * A
     end
 end
 

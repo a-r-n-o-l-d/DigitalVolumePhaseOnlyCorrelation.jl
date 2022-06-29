@@ -1,9 +1,9 @@
 abstract type ApodizationFunction end
 
-for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :bartlett_hann, :blackman)
-    st = string(apod)
+for func in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :bartlett_hann, :blackman)
+    st = string(func)
     uf = uppercasefirst.(split(st, "_"))
-    sname = Symbol(*(uf...))
+    sname = Symbol(*(uf..., "Apodization"))
     @eval begin
         """
             $(string($sname))(sz; kwargs...)
@@ -11,7 +11,7 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
         with size `sz` defined as a single `Int` (1-dimensionnal) or a tuple of 
         `Int`.
 
-        For `kwargs` definitions see `$(string($apod))` function in package
+        For `kwargs` definitions see `$($st)` function in package 
         `DSP.jl`.
 
         # Example
@@ -52,9 +52,9 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
             weights::Array{T, N}
         end
 
-        $sname(n::Int; kwargs...) = $sname(DSP.$apod(n; kwargs...))
+        $sname(n::Int; kwargs...) = $sname(DSP.$func(n; kwargs...))
 
-        $sname(sz::NTuple{2, Int}; kwargs...) = $sname(DSP.$apod(sz; kwargs...))
+        $sname(sz::NTuple{2, Int}; kwargs...) = $sname(DSP.$func(sz; kwargs...))
 
         function $sname(sz::NTuple{3, Int}; kwargs...)
             w2d = $sname(sz[1:2]; kwargs...).weights
@@ -70,8 +70,9 @@ for apod in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
     end
 end
 
-for apod in (:tukey, :gaussian, :kaiser)
-    sname = Symbol(uppercasefirst(string(apod)))
+for func in (:tukey, :gaussian, :kaiser)
+    st = string(func)
+    sname = Symbol("$(uppercasefirst(string(func)))Apodization")
     @eval begin
         """
             $(string($sname))(sz, par; kwargs...)
@@ -79,8 +80,8 @@ for apod in (:tukey, :gaussian, :kaiser)
         with size `sz` defined as a single `Int` (1-dimensionnal) or a tuple of 
         `Int`.
 
-        For `par` and `kwargs` definitions see `$(string($apod))` function in 
-        package `DSP.jl`.
+        For `par` and `kwargs` definitions see `$($st)` function in package 
+        `DSP.jl`.
 
         # Example
 
@@ -120,9 +121,9 @@ for apod in (:tukey, :gaussian, :kaiser)
             weights::Array{T, N}
         end
 
-        $sname(n::Int, par; kwargs...) = $sname(DSP.$apod(n, par; kwargs...))
+        $sname(n::Int, par; kwargs...) = $sname(DSP.$func(n, par; kwargs...))
 
-        $sname(sz::NTuple{2, Int}, par; kwargs...) = $sname(DSP.$apod(sz, par; kwargs...))
+        $sname(sz::NTuple{2, Int}, par; kwargs...) = $sname(DSP.$func(sz, par; kwargs...))
 
         function $sname(sz::NTuple{3, Int}, par; kwargs...)
             w2d = $sname(sz[1:2], par; kwargs...).weights

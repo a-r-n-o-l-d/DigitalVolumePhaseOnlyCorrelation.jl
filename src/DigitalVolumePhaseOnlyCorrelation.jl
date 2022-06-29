@@ -1,11 +1,23 @@
 module DigitalVolumePhaseOnlyCorrelation
 
 using DSP
-using ImageCore
-using ColorTypes
+using Images
+#using ImageCore
+#using ColorTypes
 using FFTW
 
-export Rect, Hanning, Hamming, Cosine, Lanczos, Triang, Bartlett, BartlettHann, Blackman, Tukey, Gaussian, Kaiser
+export  RectApodization,
+        HanningApodization,
+        HammingApodization,
+        CosineApodization,
+        LanczosApodization,
+        TriangApodization,
+        BartlettApodization,
+        BartlettHannApodization,
+        BlackmanApodization,
+        TukeyApodization,
+        GaussianApodization,
+        KaiserApodization
 include("apodization.jl")
 
 export poc, displacement, local_displacement

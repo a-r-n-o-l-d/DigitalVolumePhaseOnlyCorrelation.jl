@@ -3,7 +3,7 @@ wsz = 16
 for func in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :bartlett_hann, :blackman)
     st = string(func)
     uf = uppercasefirst.(split(st, "_"))
-    sname = Symbol(*(uf...))
+    sname = Symbol(*(uf..., "Apodization"))
     @eval begin
         # Uni-dimensionnal tests
         apod = $sname(wsz)
@@ -27,7 +27,7 @@ end
 
 par = 0.5
 for func in (:tukey, :gaussian, :kaiser)
-    sname = Symbol(uppercasefirst(string(func)))
+    sname = Symbol("$(uppercasefirst(string(func)))Apodization")
     @eval begin
         # Uni-dimensionnal tests
         apod = $sname(wsz, par)

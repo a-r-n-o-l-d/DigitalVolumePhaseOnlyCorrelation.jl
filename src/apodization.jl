@@ -17,35 +17,13 @@ for func in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
         # Example
 
         ```jldoctest
-        julia> apod = Hanning((4, 4, 4));
+        julia> apod = $(string($sname))((4, 4, 4));
 
         julia> A = rand(4, 4, 4);
         
         julia> apod(A)
         4×4×4 Array{Float64, 3}:
-        [:, :, 1] =
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-        
-        [:, :, 2] =
-         0.0  0.0       0.0        0.0
-         0.0  0.212389  0.314747   0.0
-         0.0  0.297712  0.0613367  0.0
-         0.0  0.0       0.0        0.0
-        
-        [:, :, 3] =
-         0.0  0.0       0.0       0.0
-         0.0  0.350347  0.041379  0.0
-         0.0  0.352027  0.399866  0.0
-         0.0  0.0       0.0       0.0
-        
-        [:, :, 4] =
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
+        ...
         ```
         """
         struct $sname{N, T<:Real} <: ApodizationFunction
@@ -61,7 +39,7 @@ for func in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
             w3d = $sname(sz[end]; kwargs...).weights
             w = zeros(size(w2d)..., size(w3d)...)
             for k in 1:sz[end]
-               @inbounds @. w[:,:,k] = w2d * w3d[k]
+                @inbounds @. w[:,:,k] = w2d * w3d[k]
             end
             $sname(w)
         end
@@ -86,35 +64,13 @@ for func in (:tukey, :gaussian, :kaiser)
         # Example
 
         ```jldoctest
-        julia> apod = Tukey((4, 4, 4), 0.5);
+        julia> apod = $(string($sname))((4, 4, 4), 0.5);
 
         julia> A = rand(4, 4, 4);
         
         julia> apod(A)
         4×4×4 Array{Float64, 3}:
-        [:, :, 1] =
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-        
-        [:, :, 2] =
-         0.0  0.0       0.0        0.0
-         0.0  0.699249  0.562785   0.0
-         0.0  0.602818  0.0661816  0.0
-         0.0  0.0       0.0        0.0
-        
-        [:, :, 3] =
-         0.0  0.0       0.0       0.0
-         0.0  0.824524  0.975829  0.0
-         0.0  0.287927  0.816005  0.0
-         0.0  0.0       0.0       0.0
-        
-        [:, :, 4] =
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
-         0.0  0.0  0.0  0.0
+        ...
         ```
         """
         struct $sname{N, T<:Real} <: ApodizationFunction

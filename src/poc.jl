@@ -44,7 +44,7 @@ function _delta(r, I, maxr, dims)
     J = I - O
     K = I + O
     if !checkbounds(Bool, r, J) || !checkbounds(Bool, r, K)
-        δ = NaN # edge, NaN
+        δ = 0.0 # edge, NaN  
     else
         δ = _delta(r[J], r[K], maxr)
     end

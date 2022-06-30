@@ -16,7 +16,7 @@ for func in (:rect, :hanning, :hamming, :cosine, :lanczos, :triang, :bartlett, :
 
         # Example
 
-        ```jldoctest
+        ```julia
         julia> apod = $(string($sname))((4, 4, 4));
 
         julia> A = rand(4, 4, 4);
@@ -63,7 +63,7 @@ for func in (:tukey, :gaussian, :kaiser)
 
         # Example
 
-        ```jldoctest
+        ```julia
         julia> apod = $(string($sname))((4, 4, 4), 0.5);
 
         julia> A = rand(4, 4, 4);

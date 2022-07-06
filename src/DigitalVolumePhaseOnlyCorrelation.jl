@@ -1,5 +1,6 @@
 module DigitalVolumePhaseOnlyCorrelation
 
+using ApodizationFunctions
 using PhaseOnlyCorrelation
 
 

@@ -4,9 +4,11 @@ authors = ["Arnold"]
 version = "0.1.1"
 
 [deps]
+ApodizationFunctions = "1989e0ef-b035-4793-b6cd-86d79d787dd6"
 DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
 FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+PhaseOnlyCorrelation = "8638332e-ad6f-4597-b989-96b03b35c499"
 
 [compat]
 julia = "1.7"
